@@ -1,0 +1,330 @@
+
+
+<body>
+ <div class="jumbotron" id="topNav">
+    <div class="container">
+     <div class='tabs'> Welcome back!</div>        
+        <div class='tabs'><a href='/logout'> Log Out</a></div>
+    </div>
+</div>
+
+
+
+<div class="jumbotron">
+    <div class="container">
+        <h1>Budget Buddy</h1>
+       
+    </div>
+</div>
+
+<div class="jumbotron" id="runningTab">
+    <div class="container">
+        <div class='tabs'>‣ Overall Budget: <span style="color:#27A967">${{this.overall}}</span></div>
+        <div class='tabs'>‣ Total Spent: <span style="color:#27A967">${{this.totalExpense}}</span></div>
+        <div class='tabs'>‣ Spending Money Left: <span style="color:red">${{this.left}}</span></div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<!------------------------------------------------------>
+<div class ='jumbotron' id="breakdown">
+<div class="container">
+    <div class="row">
+        <!--<div><a id='edit' href='/dashboard/edit'>Edit your budgets and expenses</a></div>-->
+        <div class="col-md-6">
+            <div class="insideCol">
+            <h3>Budget Breakdown</h3><br>
+
+                <table>
+                    <thead>
+                        <th>Budget Type</th>
+                        <th>Budget Amount</th>
+                        <th>Total Expenses</th>
+                        <th>Total Left</th>
+                    </thead>
+                    {{#each users}}
+                    <tbody>
+                    <form method="POST" action="/dashboard/deleteBudgets">                         
+
+                        {{#each budgetList}}
+                        <tr>
+                            <td><input type="checkbox" name="deleteBudgets" value="{{this._id}}">   {{this.type}}</td>
+                            <td>${{{numFixed this.amount}}}</td>
+                            <td><span style="color:green;">${{{numFixed this.totalSpent}}}</span></td> 
+                            <td><span style="color:red; font-weight: bold;">${{{numFixed this.spendingLeft}}}</span></td>
+                        </tr>
+                        {{/each}}
+
+                    </tbody>
+                    {{/each}}
+                </table>
+                <button type="submit" class='button' value="Submit" class='button'>Delete Budgets</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="insideCol">
+<h3>Expense History</h3><br>
+    <div class="form">
+
+                <form name='budgets' method="POST" action="/filter"> 
+                Filter by budget type:
+                <select name="type">
+                    <option value="No Filter">all types</option>
+                    <option value="Food - Groceries">Food - Groceries</option>
+                    <option value="Food - Takeout">Food - Takeout</option>
+                    <option value="Food - Restaurants">Food - Restaurants</option>
+                    <option value="Going Out">Going Out</option>
+                    <option value="Rent">Rent</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Other">Other</option>
+
+                </select>
+
+                <button type="submit"class="button">SUBMIT</button>
+                </form>
+            </div> 
+<br>
+                {{#if this.filterFlag}} 
+
+                    
+                    <table>
+                    <thead>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                    </thead>
+                    <tbody>
+                        <form method="POST" action="/dashboard/delete">                         
+
+                        {{#each this.filtered}}
+                        <tr> 
+                            <td><input type="checkbox" name="deleteExpenses" value="{{this._id}}">   {{dateFormat this.created "MM/DD/YYYY"}}</td> 
+                            <td>{{this.type}}</td> 
+                            <td>{{this.description}}</td> 
+                            <td>${{{numFixed this.amount}}}</td> 
+
+                        {{/each}}
+                        </tr>
+                    </tbody>
+
+                </table>
+                <button type="submit" class='button' value="Submit" class='button'>Delete Expenses</button>
+                </form>
+
+                {{else}}
+                <table>
+                    <thead>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                    </thead>
+                    {{#each users}}
+                    <tbody>
+                        <form method="POST" action="/dashboard/delete">                         
+
+                        {{#each expenseList}}
+                        <tr> 
+                            <td><input type="checkbox" name="deleteExpenses" value="{{this._id}}">   {{dateFormat this.created "MM/DD/YYYY"}}</td> 
+                            <td>{{this.type}}</td> 
+                            <td>{{this.description}}</td> 
+                            <td>${{{numFixed this.amount}}}</td> 
+
+                        {{/each}}
+                        </tr>
+                    </tbody>
+                    {{/each}}
+
+                </table>
+                <button type="submit" class='button' value="Submit" class='button'>Delete Expenses</button>
+                </form>
+
+
+
+
+                {{/if}}
+
+        </div>
+    </div>
+    </div>
+</div>
+</div>
+
+<!------------------------------------------------------>
+<div class ='jumbotron' id="forms">
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <div class="insideCol">
+
+            <div class="form">
+                <h3>Insert Budgets</h3><br>
+                <span style="color: red">{{this.message}}</span>
+
+                <form name='budgets' method="POST" action="/budgets"> 
+
+                <select name="type">
+                    <option value="Food - Groceries">Food - Groceries</option>
+                    <option value="Food - Takeout">Food - Takeout</option>
+                    <option value="Food - Restaurants">Food - Restaurants</option>
+                    <option value="Going Out">Going Out</option>
+                    <option value="Rent">Rent</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Other">Other</option>
+                </select>
+                <input type="text" name="amount" placeholder="Budget Amount"><br><br>
+
+
+                <button type="submit" id="subBtn" class="button">SUBMIT</button>
+                </form>
+            </div> 
+
+        </div>
+        </div>
+
+
+        <div class="col-md-6">
+            <div class="insideCol">
+
+            <div class="form">
+                <h3>Add an Expense</h3><br>
+                <span style="color: red">{{this.noMatch}}</span>
+                <span style="color: red">{{this.message2}}</span>
+                <form method="POST" action="/expenses"> 
+                <select name="type">
+                    <option value="Food - Groceries">Food - Groceries</option>
+                    <option value="Food - Takeout">Food - Takeout</option>
+                    <option value="Food - Restaurants">Food - Restaurants</option>
+                    <option value="Going Out">Going Out</option>
+                    <option value="Rent">Rent</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <input type="text" name="amount" placeholder="Cost" class="amount"> - 
+                <input type="text" name="description" placeholder="Description"><br><br>
+                <button type="submit" class="button">ADD</button>
+                </form>
+            </div> 
+
+        </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- visualizations -->
+<div class ='jumbotron' id="breakdown">
+<div id="budgets" class="container">
+    <div class="row">
+        <h3>Visualizations</h3>
+        <div class="col-md-6">
+            <div id="piechart" style="width: 550px; height: 350px;"></div>
+        </div>
+
+        <div class="col-md-6">
+
+            <div id="piechart2" style="width: 550px; height: 350px;"></div>
+        </div>
+    </div>
+
+</div>
+</div> 
+
+<div class="jumbotron" id="runningTab">
+    <div class="container">
+        <div class='tabs'>Copyright &#169 2016 Jessica Donahue</span></div>
+
+
+    </div>
+</div>
+<!---------------------------------------------------------->
+
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+
+        var budgets = {{{json this.budgets}}};
+
+        var expenses = {{{json this.expenses}}};
+
+        var newArray = [];
+        var newArray2 = [];
+        for (var i = 0; i < budgets.length; i++) {
+
+            var tinyArray = [];
+            tinyArray.push(budgets[i].type);
+            tinyArray.push(budgets[i].amount);
+            newArray.push(tinyArray);
+            //console.log(budgets[i].type);
+            //console.log(budgets[i].amount);
+        }
+
+        for (var i = 0; i < budgets.length; i++) {
+
+            var tinyArray2 = [];
+            tinyArray2.push(budgets[i].type);
+            tinyArray2.push(budgets[i].totalSpent);
+            newArray2.push(tinyArray2);
+            //console.log(budgets[i].type);
+            //console.log(budgets[i].amount);
+        }
+
+        //console.log(newArray2);
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('string','Type');
+        data.addColumn('number', 'Amount');
+        for (var i = 0; i < newArray.length; i++) {
+            data.addRow(newArray[i]);
+        }
+ 
+      
+        var options = {
+          title: 'Budget Amounts'
+        };
+
+
+        var data2 = new google.visualization.DataTable();
+        data2.addColumn('string','Type');
+        data2.addColumn('number', 'Amount Spent');
+        for (var i = 0; i < newArray2.length; i++) {
+            data2.addRow(newArray2[i]);
+        }
+ 
+      
+        var options2 = {
+          title: 'Expenses by Budget'
+        };
+
+    
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        var chart2 = new google.visualization.BarChart(document.getElementById('piechart2'));
+
+        chart.draw(data, options);
+        chart2.draw(data2, options2);
+
+      }
+</script> 
+
+
+<!--Bootstrap stuff-->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/budget.js"></script>
+
+</body>

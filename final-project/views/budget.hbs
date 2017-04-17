@@ -1,0 +1,79 @@
+<body id="dashboard">
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="/">
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a href="/dashboard">Dashboard</a>
+                </li>
+                <li>
+                    <a href="/budget">Budget</a>
+                </li>
+                <li>
+                    <a href="#">Expenses</a>
+                </li>
+                <li>
+                    <a href="#">Notebook</a>
+                </li>
+                <li>
+                    <a href="#">About</a>
+                </li>
+                <li>
+                    <a href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1>Budget</h1>
+
+                        <!--
+						<div id="budgetList">
+
+							Budget List
+							{{#each budgets}}
+
+									<div class="budget">{{this.type}}: ${{this.amount}}</div>
+
+							{{/each}}
+							</div>
+							
+
+						</div> -->
+                        <div id="budgetList">
+                        <form method="POST" action="/image-posts-delete/{{imageposts.slug}}">                                
+                                {{#each budgets}}
+                                    <input type="checkbox" name="deleteType" value="{{this._id}}"> {{this.type}}: ${{this.amount}}<br>
+                                {{/each}}
+                            <input type="submit" value="Submit">
+                            </form>
+
+						</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
